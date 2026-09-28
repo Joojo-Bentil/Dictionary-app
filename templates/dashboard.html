@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>Dictionary App - Dashboard</title>
+{% endblock %}
+
+{% block dash_active %}
+    class="active"
+{% endblock %}
+   
+{% block content %}
+    <div class="row">
+        <h2>Word Index</h2>
+        <div class="col-md-2 sidenav">
+            <a href="#" class="side-active" id="word-index">All Words</a>
+            <a href="#" id="word-add">Add Word</a>
+            <div>
+                <form action="javascript:0" id="word-form">
+                    <div class="form-group">
+                        <label for="word">Word:</label>
+                        <input 
+                        type="text" 
+                        class="form-control" 
+                        placeholder="Enter in the word here:" 
+                        name="word" 
+                        id="word"
+                        required>
+                    </div>
+                    <div class="form-group">
+                        <label for="meaning">Meaning:</label>
+                        <textarea 
+                        class="form-control" 
+                        placeholder="Type the meaning here:" 
+                        id="meaning"
+                        required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block btn-lg" id="submit">Submit</button>
+                    <button type="button" class="btn btn-warning btn-block btn-lg" id="cancel">Cancel</button>
+                </form>
+            </div>
+
+            <a href="#" id="word-add">Add Logo</a>
+            <div>
+                <form action="javascript:0" id="logo-form" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="logo">Upload:</label>
+                        <input 
+                        type="file" 
+                        class="form-control" 
+                        accept="image/*" 
+                        name="logo" 
+                        id="logo"
+                        required>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-block btn-lg" id="submit">Submit</button>
+                    <button type="button" class="btn btn-warning btn-block btn-lg" id="cancel">Cancel</button>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-10 main">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>SN</th>
+                        <th>Word</th>
+                        <th>Meaning</th>
+                        <th></th>
+                        <th></th>
+                    </tr>              
+                </thead>
+                <tbody>
+                    {% for word in words %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td class="word-word">{{ word['word'] }}</td>
+                        <td class="word-meaning">{{ word['meaning'] }}</td>
+                        <form action="javascript:0" class="update-form">
+                            <td class="edit-word"><input type="text" value="{{ word['word'] }}" required></td>
+                            <td class="edit-meaning"><textarea required>{{ word['meaning'] }}</textarea></td>                        
+                            <td><button class="btn btn-sm btn-primary btn-block submit" id="{{ word['id'] }}">Submit</button></td>
+                        </form>
+                        <td><button class="btn btn-sm btn-success btn-block edit" id="{{ word['id'] }}">Edit</button></td>
+                        <td><button class="btn btn-sm btn-danger btn-block delete" id="{{ word['id'] }}">Delete</button></td>
+                        <td><button class="btn btn-sm btn-warning btn-block cancel" id="{{ word['id'] }}">Cancel</button></td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="3">The dictionary has no words at the moment. Please try again later.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+   </div>
+{% endblock %}
+  
