@@ -1,8 +1,9 @@
-from flask import Flask, render_template, url_for, request
+from flask import Flask, render_template, url_for, request, current_app
 from flaskext.mysql import MySQL 
 import pymysql.cursors
 import json
 import datetime
+import os
 
 app = Flask(__name__)
 
@@ -42,6 +43,15 @@ def dashboard():
     
     return render_template('dashboard.html', words=rv)
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        # Add your login logic here
+    return render_template('login.html')
+    
+
 @app.route('/word', methods=['POST'])
 def add_word():
     req = request.get_json()
@@ -55,6 +65,7 @@ def add_word():
     cur.close()
 
     return json.dumps('success')
+
 
 @app.route('/word/<id>/delete', methods=['POST'])
 def delete_word(id):
@@ -81,6 +92,15 @@ def edit_word(id):
     cur.close()
 
     return json.dumps('success')
+
+@app.route('/add_logo', methods=['POST'])
+def add_logo():
+    image = request.files['file']
+    
+    if image:
+        filepath = os.path.join(current_app.root_path, 'static/images/logo.png')
+        image.save(filepath)
+    return 'success'
 
 if __name__ == "__main__":
     app.run(debug=True)

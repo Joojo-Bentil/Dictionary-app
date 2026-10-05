@@ -1,5 +1,6 @@
 window.onload = function() {
     $('#word-form').hide();
+    $('#logo-form').hide();
     $('.edit-word, .edit-meaning').hide();
     $('.submit, .cancel').parent().hide();
     
@@ -8,10 +9,12 @@ window.onload = function() {
         location.reload();
     });
 
+    // create operation
     $('#word-add').click(function() {
-        $('#word-index').removeClass('side-active');
+        $('#word-index, #logo-add').removeClass('side-active');
         $(this).addClass('side-active');
         $('#word-form').show();
+        $('#logo-form').hide();
     });
 
     $('#word-form').submit(function() {
@@ -36,10 +39,44 @@ window.onload = function() {
         });
     });
 
-
     $('#cancel').click(function() {
         location.reload();
     });
+
+    // logo add operation
+    $('#logo-add').click(function() {
+        $('#word-index, #word-add').removeClass('side-active');
+        $(this).addClass('side-active');
+        $('#word-form').hide();
+        $('#logo-form').show();
+    });
+
+    $('#logo-cancel').click(function() {
+        location.reload();
+    });
+
+    $('#logo-form').submit(function() {
+        let data =new FormData();
+        data.append('file', $('#logo')[0].files[0]);
+
+        $.ajax({
+            url: '/add_logo',
+            type: 'POST',
+            data: data,
+            enctype: 'multipart/form-data',
+            processData: false,
+            contentType: false,
+            success: function(data) {
+                location.reload();
+            },
+            error: function(err) {
+                console.log(err);
+            }
+        });
+    });
+
+
+    
 
     //Delete operation
     $('.delete').click(function() {
@@ -57,6 +94,8 @@ window.onload = function() {
         });
     });
 
+
+    // update operation
     $('.edit').click(function() {
         let parent = $(this).parents('tr');
         parent.find('.edit-word, .edit-meaning').show();
