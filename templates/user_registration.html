@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>User Registration</title>
+</head>
+<body class="user-registration-page">
+    <div class="user-registration-form-box">
+        <p><span id="user-registration-form-box-title">Register Account!</span> <br> Fill in details to register for your account</p>
+        
+        <form class="user-registration-form" action="/user_registration" method="POST">
+            <div class="form-group">
+                <label for="full_name">Full Name:</label> <br>
+                <input type="text" name="full_name" id="full_name" placeholder="Enter your full name" required>
+            </div> <br>
+            <div class="form-group">
+                <label for="email">Email:</label> <br>
+                <input type="email" name="email" id="email" placeholder="Enter your email" required>
+            </div> <br>
+            <div class="form-group">
+                <label for="password">Password:</label> <br>
+                <input type="password" name="password" id="password" placeholder="Enter your password" required>
+            </div><br>
+            <div class="form-group">
+                <label for="confirm_password">Confirm Password:</label> <br>
+                <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm your password" required>
+            </div> <br>
+            <button type="submit"><span id="user-registration-form-button-text">Sign Up</span></button>
+        </form>
+        <p>Already have an account? <a href="{{ url_for('login') }}">Sign in</a></p>
+    </div>
+</body>
+</html>

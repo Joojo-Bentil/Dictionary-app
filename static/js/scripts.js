@@ -43,6 +43,38 @@ window.onload = function() {
         location.reload();
     });
 
+    //create operation for user registration
+    $('.user-registration-form').submit(function() {
+        let fullname = $('#full_name').val();
+        let email = $('#email').val();
+        let password = $('#password').val();
+        let confirm_password = $('#confirm_password').val();
+
+        if (password !== confirm_password) {
+            alert('Passwords do not match!');
+            return false;
+        }
+
+        $.ajax({
+            url: '/add_users',
+            type: 'POST',
+            dataType: 'json',
+            data: JSON.stringify({
+                'fullname': fullname,
+                'email': email,
+                'password': password,
+                'confirm_password': confirm_password
+            }),
+            contentType: 'application/json; charset=utf-8',
+            success: function(data) {
+                location.reload();
+            },
+            error: function(err) {
+                console.log(err);
+            }
+        });
+    });
+
     // logo add operation
     $('#logo-add').click(function() {
         $('#word-index, #word-add').removeClass('side-active');

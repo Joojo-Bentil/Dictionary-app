@@ -5,7 +5,7 @@ html {
 body {
   margin-bottom: 45px; /* Margin bottom by footer height */
 }
-
+/* login page */
 .login-page {
   display: flex;
   justify-content: center;
@@ -58,7 +58,7 @@ body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.login-form input[type="text"],
+.login-form input[type="email"],
 .login-form input[type="password"] {
   width: 100%;
   box-sizing: border-box;
@@ -81,7 +81,88 @@ body {
   border-radius: 4px;
   cursor: pointer;
 }
+/* login page end */
 
+/* user registration page */
+.user-registration-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+}
+
+.user-registration-form-box {
+  width: 300px;
+  height: auto;
+  margin: 0 auto;
+  padding: 30px;
+  border: 1px solid #0057ff;
+  border-radius: 5px;
+  background-color: #f8f7f4;
+}
+
+#user-registration-form-box-title {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #34325e;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#user-registration-form-button-text {
+  font-weight: bold;
+}
+
+.user-registration-form-box p, .user-registration-form-box a {
+  margin-bottom: 15px;
+  font-size: 16px;
+  color: #34325e;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
+  text-decoration: none;
+}
+
+.user-registration-form-box a {
+  color: #0057ff;
+}
+
+
+
+.user-registration-form label {
+  font-size: 18px;
+  color: #34325e;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.user-registration-form input[type="text"],
+.user-registration-form input[type="email"],
+.user-registration-form input[type="password"] {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+
+
+.user-registration-form button {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+  font-size: 18px;
+  background-color: #0057ff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+/* user registration page end */
+
+/* Navbar */
 nav.navbar {
   background-color: #34325e;
 }
@@ -96,6 +177,7 @@ a.navbar-brand {
 a.navbar-brand img {
   height: 100%;
 }
+/* Navbar end */
 
 /* Home page */
 
@@ -142,6 +224,7 @@ textarea.form-control {
   height: 200px;
   background-color: #ffede5;
 }
+/* Home page end */
 
 /*dashboard*/
 .row > h2 {

@@ -1,5 +1,6 @@
-from flask import Flask, render_template, url_for, request, current_app
+from flask import Flask, render_template, url_for, request, current_app, jsonify
 from flaskext.mysql import MySQL 
+from werkzeug.security import generate_password_hash, check_password_hash
 import pymysql.cursors
 import json
 import datetime
@@ -50,7 +51,45 @@ def login():
         password = request.form['password']
         # Add your login logic here
     return render_template('login.html')
+
+@app.route('/user_registration', methods=['GET', 'POST'])
+def user_registration():
     
+    return render_template('user_registration.html')
+
+@app.route('/add_users', methods=['POST'])  # Restrict to POST if serving only JSON
+def add_user():
+    # 1. Safely parse JSON data
+    req = request.get_json(silent=True)
+    if not req:
+        return jsonify({'status': 'error', 'message': 'Invalid or missing JSON payload'}), 400
+
+    # 2. Extract values safely using .get()
+    fullname = req.get('fullname')
+    email = req.get('email')
+    password = req.get('password')
+    confirm_password = req.get('confirm_password')
+
+    # 3. Validate required fields
+    if not all([fullname, email, password, confirm_password]):
+        return jsonify({'status': 'error', 'message': 'All fields are required!'}), 400
+
+    if password != confirm_password:
+        return jsonify({'status': 'error', 'message': 'Passwords do not match!'}), 400
+
+    # 4. Hash password & insert into database
+    hashed_password = generate_password_hash(password)
+
+    conn = mysql.get_db()
+    cur = conn.cursor()
+    cur.execute(
+        'INSERT INTO user_registration (fullname, email, password) VALUES (%s, %s, %s)', 
+        (fullname, email, hashed_password)
+    )
+    conn.commit()
+    cur.close()
+
+    return jsonify({'status': 'success', 'message': 'User added successfully'}), 201
 
 @app.route('/word', methods=['POST'])
 def add_word():
