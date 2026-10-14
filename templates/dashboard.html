@@ -38,6 +38,21 @@
                     <button type="button" class="btn btn-warning btn-block btn-lg" id="cancel">Cancel</button>
                 </form>
             </div>
+            <form action="{{ url_for('import_words') }}" id="words-csv-form" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="csv-file">Import words from CSV:</label>
+                    <input
+                        type="file"
+                        class="form-control"
+                        accept=".csv,text/csv"
+                        name="csv_file"
+                        id="csv-file"
+                        required>
+                    <p class="help-block">The first row must be a header. Each following row must contain a word and meaning.</p>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Import CSV</button>
+                <button type="button" class="btn btn-warning btn-block" id="file-cancel">Cancel</button>
+            </form>
 
             <a href="#" id="logo-add">Add Logo</a>
             <div>
@@ -75,14 +90,12 @@
                         <td>{{ loop.index }}</td>
                         <td class="word-word">{{ word['word'] }}</td>
                         <td class="word-meaning">{{ word['meaning'] }}</td>
-                        <form action="javascript:0" class="update-form">
-                            <td class="edit-word"><input type="text" value="{{ word['word'] }}" required></td>
-                            <td class="edit-meaning"><textarea required>{{ word['meaning'] }}</textarea></td>                        
-                            <td><button class="btn btn-sm btn-primary btn-block submit" id="{{ word['id'] }}">Submit</button></td>
-                        </form>
+                        <td class="edit-word"><input type="text" value="{{ word['word'] }}" required></td>
+                        <td class="edit-meaning"><textarea required>{{ word['meaning'] }}</textarea></td>
+                        <td class="update-actions"><button type="button" class="btn btn-sm btn-primary btn-block submit" id="{{ word['id'] }}">Submit</button></td>
                         <td><button class="btn btn-sm btn-success btn-block edit" id="{{ word['id'] }}">Edit</button></td>
                         <td><button class="btn btn-sm btn-danger btn-block delete" id="{{ word['id'] }}">Delete</button></td>
-                        <td><button class="btn btn-sm btn-warning btn-block cancel" id="{{ word['id'] }}">Cancel</button></td>
+                        <td class="update-actions"><button type="button" class="btn btn-sm btn-warning btn-block cancel">Cancel</button></td>
                     </tr>
                     {% else %}
                     <tr>

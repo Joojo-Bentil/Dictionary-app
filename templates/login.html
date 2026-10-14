@@ -10,18 +10,32 @@
         <div class="login-form-box">
             <p><span id="login-form-box-title">Welcome Back!</span> <br> Sign in to your account</p>
             
-            <form class="login-form" action="/login" method="POST">
+            <form class="login-form" action="{{ url_for('login') }}" method="POST">
                 <div class="form-group">
                     <label for="username">Email:</label> <br>
                     <input type="email" name="username" id="username" placeholder="Enter your email" required>
                 </div> <br>
                 <div class="form-group">
                     <label for="password">Password:</label> <br>
-                    <input type="password" name="password" id="password" placeholder="Enter your password" required>
+                    <div class="password-input-wrap">
+                        <input type="password" name="password" id="password" placeholder="Enter your password" required>
+                        <button type="button" class="password-toggle" data-target="password" aria-label="Show password" aria-pressed="false">
+                            <svg class="eye-icon eye-icon-open" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                            <svg class="eye-icon eye-icon-closed" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                <path d="M3 3l18 18M10.6 10.6a2 2 0 0 0 2.8 2.8"></path>
+                                <path d="M9.9 5.2A10.8 10.8 0 0 1 12 5c6.4 0 10 7 10 7a15.8 15.8 0 0 1-3.1 3.8M6.2 6.2C3.5 8.1 2 12 2 12s3.6 7 10 7a10.8 10.8 0 0 0 4-.8"></path>
+                            </svg>
+                        </button>
+                    </div>
                 </div> <br>
                 <button type="submit"><span id="login-form-button-text">Sign In</span></button>
             </form>
             <p>Don't have an account? <a href="{{ url_for('user_registration') }}">Sign up</a></p>
         </div>
+        <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
     </body>
 </html>

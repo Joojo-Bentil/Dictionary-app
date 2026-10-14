@@ -59,7 +59,7 @@ body {
 }
 
 .login-form input[type="email"],
-.login-form input[type="password"] {
+.login-form .password-input-wrap input {
   width: 100%;
   box-sizing: border-box;
   padding: 10px;
@@ -70,7 +70,7 @@ body {
 
 
 
-.login-form button {
+.login-form button[type="submit"] {
   width: 100%;
   box-sizing: border-box;
   padding: 10px;
@@ -160,6 +160,52 @@ body {
   border-radius: 4px;
   cursor: pointer;
 }
+
+.password-input-wrap {
+  position: relative;
+}
+
+.password-input-wrap input[type="password"],
+.password-input-wrap input[type="text"] {
+  padding-right: 44px;
+}
+
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px !important;
+  height: 30px;
+  padding: 5px !important;
+  transform: translateY(-50%);
+  border: 0 !important;
+  border-radius: 4px !important;
+  background: transparent !important;
+  color: #34325e !important;
+  cursor: pointer;
+}
+
+.password-toggle:hover,
+.password-toggle:focus {
+  background: #e8e7ef !important;
+}
+
+.eye-icon {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.eye-icon-closed {
+  display: none;
+}
 /* user registration page end */
 
 /* Navbar */
@@ -168,14 +214,15 @@ nav.navbar {
 }
 
 a.navbar-brand {
-  font-size: 24px;
+  /*font-size: 24px;
   font-weight: bold;
   letter-spacing: 2px;
-  background-color: currentColor;
+  background-color: currentColor;*/
 }
 
 a.navbar-brand img {
   height: 100%;
+  
 }
 /* Navbar end */
 
@@ -263,6 +310,23 @@ textarea.form-control {
 
 .sidenav > div {
   margin-left: -15px;
+}
+
+#word-form,
+#words-csv-form,
+#logo-form,
+.edit-word,
+.edit-meaning,
+.update-actions {
+  display: none;
+}
+
+#words-csv-form {
+  margin: 15px 0;
+}
+
+#words-csv-form .help-block {
+  white-space: normal;
 }
 
 /* Footer */
