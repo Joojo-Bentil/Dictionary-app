@@ -23,22 +23,65 @@ def index():
         return redirect(url_for('login'))
 
     user_response = ''
-    if request.method == 'POST':
-        user_input = request.form['word']
-        if user_input == '':
+    searched_word = ''
+    conn = mysql.get_db()
+    cur = conn.cursor()
+    cur.execute('''
+        CREATE TABLE IF NOT EXISTS `recent_word_searches` (
+            `id` INT NOT NULL AUTO_INCREMENT,
+            `user_id` INT NOT NULL,
+            `word` VARCHAR(100) NOT NULL,
+            `searched_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY (`id`),
+            INDEX `idx_recent_word_searches_user_time` (`user_id`, `searched_at`)
+        )
+    ''')
+
+    if request.method == 'POST' or 'word' in request.args:
+        user_input = (
+            request.form.get('word', '') if request.method == 'POST'
+            else request.args.get('word', '')
+        ).strip()
+        searched_word = user_input
+        if not user_input:
             user_response = "You did not enter a valid word. Please try again."
         else:
-            conn =mysql.get_db()
-            cur = conn.cursor()
-            cur.execute('SELECT meaning FROM word WHERE word = %s', (user_input))
+            cur.execute('SELECT meaning FROM word WHERE word = %s', (user_input,))
             rv = cur.fetchall()
             if (len(rv) > 0):
                 user_response = rv[0]['meaning']
             else:
                 user_response = "Word not found in the dictionary."
-        
-        
-    return render_template('index.html', user_response=user_response)
+
+            cur.execute(
+                '''
+                DELETE FROM `recent_word_searches`
+                WHERE `user_id` = %s AND LOWER(`word`) = LOWER(%s)
+                ''',
+                (session['user_id'], user_input)
+            )
+            cur.execute(
+                'INSERT INTO `recent_word_searches` (`user_id`, `word`) VALUES (%s, %s)',
+                (session['user_id'], user_input)
+            )
+            conn.commit()
+
+    cur.execute('''
+        SELECT `word`, `searched_at`
+        FROM `recent_word_searches`
+        WHERE `user_id` = %s
+        ORDER BY `searched_at` DESC, `id` DESC
+        LIMIT 10
+    ''', (session['user_id'],))
+    recent_searches = cur.fetchall()
+    cur.close()
+
+    return render_template(
+        'index.html',
+        user_response=user_response,
+        recent_searches=recent_searches,
+        searched_word=searched_word
+    )
 
 @app.route('/dashboard')
 def dashboard():
@@ -73,7 +116,7 @@ def login():
         conn = mysql.get_db()
         cur = conn.cursor()
         cur.execute(
-            'SELECT `id`, `password` FROM `user_registration` WHERE `email` = %s',
+            'SELECT `id`, `fullname`, `password` FROM `user_registration` WHERE `email` = %s',
             (email,)
         )
         user = cur.fetchone()
@@ -92,6 +135,7 @@ def login():
 
     session.clear()
     session['user_id'] = user['id']
+    session['fullname'] = user['fullname']
     return jsonify(success=True, redirect=url_for('index'))
 
 

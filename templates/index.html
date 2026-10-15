@@ -23,6 +23,7 @@
                             placeholder="Enter in the word here:" 
                             name="word" 
                             id="word"
+                            value="{{ searched_word }}"
                             required>
                         </div>
                         <button type="submit" class="btn btn-primary btn-block btn-lg">Search</button>
@@ -32,14 +33,36 @@
                     <form action="">
                         <div class="form-group">
                             <label for="meaning">Meaning:</label>
-                            <textarea class="form-control" placeholder="The meaning of the word shows here:" id="meaning" disabled> {{ user_response }} </textarea>
+                            <textarea class="form-control" placeholder="The meaning of the word shows here:" id="meaning" disabled>{{ user_response }}</textarea>
                         </div>
                     </form>                    
                 </div>
             </div>
         </div>
         <div class="col-md-6">
-            <img src="{{ url_for('static', filename='images/search.jpg') }}" alt="">
+            <h2>Recent Searches</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Word</th>
+                        <th>Searched At</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for search in recent_searches %}
+                    <tr>
+                        <td>
+                            <a href="{{ url_for('index', word=search['word']) }}">{{ search['word'] }}</a>
+                        </td>
+                        <td>{{ search['searched_at'] }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="2">No recent searches yet.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 {% endblock %}
